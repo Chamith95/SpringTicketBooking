@@ -1,12 +1,20 @@
-package com.middleware.ui.model.request;
+package com.middleware.ui.model.response;
 
-public class OrgDetailsRequestModel {
+public class OrgRest {
+	private String orgId;
 	private String name;
 	private String email;
 	private String password;
 	private String type;
 	private String description;
 	
+	
+	public String getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 	public String getName() {
 		return name;
 	}
