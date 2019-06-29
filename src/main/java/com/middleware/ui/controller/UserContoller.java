@@ -27,6 +27,7 @@ public class UserContoller {
 	@GetMapping
 	public String getUser()
 	{
+		System.out.println("get was called");
 		return "get user was called";
 	}
 	
