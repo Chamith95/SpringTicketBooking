@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.middleware.service.EventService;
 import com.middleware.shared.dto.EventDto;
@@ -96,5 +98,22 @@ public class EventController {
 		BeanUtils.copyProperties(updateEvent, returnValue);
 		
 		return returnValue;
+	}
+	
+	@DeleteMapping(path="/{id}")
+	public EventRest DeleteUser(@PathVariable String id)
+	{
+		EventRest returnvalue=new EventRest();
+		ModelMapper modelMapper = new ModelMapper();
+		
+		EventDto eventDto =eventService.getEventByEventId(id);
+		
+		
+	
+		
+		eventService.deleteEvent(id);
+		
+		returnvalue=modelMapper.map(eventDto,EventRest.class);
+		return returnvalue;
 	}
 }

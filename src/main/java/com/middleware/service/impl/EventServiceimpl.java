@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
 import com.middleware.io.entity.EventEntity;
 import com.middleware.repository.EventRepository;
 import com.middleware.service.EventService;
@@ -98,6 +99,17 @@ public class EventServiceimpl implements EventService {
 		BeanUtils.copyProperties(updatedEventDetails, returnValue);
 		
 		return returnValue;
+	}
+
+	@Override
+	public void deleteEvent(String eventId) {
+		EventEntity eventEntity =eventRepository.findByEventid(eventId);
+		
+		if(eventEntity== null) {
+		return ;
+	}
+		eventRepository.delete(eventEntity);
+		
 	}
 
 }
