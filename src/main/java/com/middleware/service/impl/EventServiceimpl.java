@@ -6,8 +6,8 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 
 import com.middleware.io.entity.EventEntity;
 import com.middleware.repository.EventRepository;
@@ -64,6 +64,18 @@ public class EventServiceimpl implements EventService {
 		
 			
 		return returnValue;
+	}
+
+	@Override
+	public EventDto getEventByEventId(String eventId) {
+		EventDto returnValue =new EventDto();
+		EventEntity eventEntity =eventRepository.findByEventid(eventId);
+		if(eventEntity== null) {
+		throw new UsernameNotFoundException("User with id" +eventId+" not found");
+	}
+	
+	BeanUtils.copyProperties(eventEntity, returnValue );
+	return returnValue;
 	}
 
 }

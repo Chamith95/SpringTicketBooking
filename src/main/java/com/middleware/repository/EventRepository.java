@@ -12,4 +12,5 @@ import com.middleware.io.entity.EventEntity;
 public interface EventRepository extends CrudRepository<EventEntity,Long> {
 	EventEntity findByEventid(String id);
 	 List<EventEntity> findAllByOrgid(String orgId);
+	 
 }

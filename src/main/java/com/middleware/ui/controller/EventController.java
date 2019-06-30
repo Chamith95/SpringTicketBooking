@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.middleware.service.EventService;
 import com.middleware.shared.dto.EventDto;
 import com.middleware.ui.model.request.EventRequestModel;
@@ -61,6 +62,21 @@ public class EventController {
 		
 		System.out.println(returnValue);
 	
+
+		
+		return returnValue;
+	}
+	
+	@GetMapping(path="event/{id}")
+	public EventRest getEvent(@PathVariable String id)
+	{
+		EventRest returnValue=new EventRest();
+		
+		ModelMapper modelMapper = new ModelMapper();
+		
+		EventDto eventDto =eventService.getEventByEventId(id);
+		
+		returnValue=modelMapper.map(eventDto,EventRest.class);
 
 		
 		return returnValue;
