@@ -1,7 +1,13 @@
 package com.middleware.service.impl;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.middleware.io.entity.OrgEntity;
@@ -19,6 +25,9 @@ public class OrgServiceimpl implements OrgService {
 	@Autowired
 	Utils utils;
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
 	@Override
 	public OrgDto createOrganization(OrgDto org) {
@@ -31,12 +40,37 @@ public class OrgServiceimpl implements OrgService {
 		
 		String OrgId=utils.generateOrgId(30);
 		orgEntity.setOrgId(OrgId);
-		orgEntity.setEncryptedPassword("test");
+		orgEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(org.getPassword()));
 		
 		OrgEntity storedOrgEntity=orgRepository.save(orgEntity);
 		
 		OrgDto returnValue=new OrgDto();
 		BeanUtils.copyProperties(storedOrgEntity, returnValue);
+		
+		return returnValue;
+	}
+
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		OrgEntity orgEntity=orgRepository.findByEmail(email);
+
+
+		if(orgEntity ==null)throw new UsernameNotFoundException(email);
+		
+		return new User(orgEntity.getEmail(),orgEntity.getEncryptedPassword(),new ArrayList<>());
+	
+	}
+
+
+	@Override
+	public OrgDto getUser(String email) {
+		OrgEntity orgEntity=orgRepository.findByEmail(email);
+		
+		if(orgEntity ==null)return null;
+		
+		OrgDto returnValue=new OrgDto();
+		BeanUtils.copyProperties(orgEntity, returnValue);
 		
 		return returnValue;
 	}
