@@ -1,8 +1,13 @@
 package com.middleware.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.middleware.io.entity.EventEntity;
 import com.middleware.repository.EventRepository;
@@ -34,6 +39,31 @@ public class EventServiceimpl implements EventService {
 		BeanUtils.copyProperties(storedEvent, returnvalue);
 		
 		return returnvalue;
+	}
+
+	@Override
+	public List<EventDto> getOrgEvents(String orgId) {
+		List<EventDto> returnValue =new ArrayList<>();
+		
+//		EventEntity userEntity =EventRepository.findByUserId(orgId);
+//		
+		ModelMapper modelMapper = new ModelMapper();
+//		
+//		
+//		if(userEntity ==null) return returnValue;
+		
+		Iterable<EventEntity> addresses =eventRepository.findAllByOrgid(orgId);
+		
+		
+	
+		
+		for(EventEntity addressEntity:addresses) {
+//			System.out.println(modelMapper.map(addressEntity,EventDto.class).getAddressId());
+			returnValue.add(modelMapper.map(addressEntity,EventDto.class));
+		}
+		
+			
+		return returnValue;
 	}
 
 }
