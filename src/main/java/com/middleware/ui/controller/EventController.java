@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.middleware.service.EventService;
 import com.middleware.shared.dto.EventDto;
@@ -78,6 +78,22 @@ public class EventController {
 		
 		returnValue=modelMapper.map(eventDto,EventRest.class);
 
+		
+		return returnValue;
+	}
+	
+	@PutMapping(path="/{id}")
+	public EventRest updateUser(@PathVariable String id,@RequestBody EventRequestModel eventDetails)
+	{
+		EventRest returnValue=new EventRest();
+		
+
+		
+		EventDto eventDto =new EventDto();
+		BeanUtils.copyProperties(eventDetails, eventDto);
+		
+		EventDto updateEvent=eventService.updateEvent(id,eventDto);
+		BeanUtils.copyProperties(updateEvent, returnValue);
 		
 		return returnValue;
 	}

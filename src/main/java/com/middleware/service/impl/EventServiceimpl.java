@@ -78,4 +78,26 @@ public class EventServiceimpl implements EventService {
 	return returnValue;
 	}
 
+	@Override
+	public EventDto updateEvent(String eventid, EventDto event) {
+		EventDto returnValue =new EventDto();
+		EventEntity eventEntity =eventRepository.findByEventid(eventid);
+		if(eventEntity== null) {
+		return null;
+	}
+		
+		eventEntity.setName(event.getName());
+		eventEntity.setDate(event.getDate());
+		eventEntity.setVenue(event.getVenue());
+		eventEntity.setDresstype(event.getDresstype());
+		eventEntity.setTicketcount(event.getTicketcount());
+		eventEntity.setDescription(event.getDescription());
+		
+		
+		EventEntity updatedEventDetails=eventRepository.save(eventEntity);
+		BeanUtils.copyProperties(updatedEventDetails, returnValue);
+		
+		return returnValue;
+	}
+
 }
