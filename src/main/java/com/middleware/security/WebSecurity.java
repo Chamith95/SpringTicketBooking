@@ -17,12 +17,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.middleware.service.OrgService;
 import com.middleware.service.UserService;
 
-
-
-
-
-
-
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
