@@ -62,7 +62,28 @@ public class EventController {
 		returnValue= modelMapper.map(eventDTO, listType);
 		}
 		
-		System.out.println(returnValue);
+	
+	
+
+		
+		return returnValue;
+	}
+	
+	@GetMapping(path="/all")
+	public List<EventRest> getAllEvents()
+	{
+		List<EventRest> returnValue=new ArrayList<>();
+		
+		ModelMapper modelMapper = new ModelMapper();
+		
+		List<EventDto> eventDTO =eventService.getAllEvents();
+		
+		if(eventDTO !=null && !eventDTO.isEmpty()) {
+		java.lang.reflect.Type listType = new TypeToken<List<EventRest>>() {}.getType();
+		returnValue= modelMapper.map(eventDTO, listType);
+		}
+		
+	
 	
 
 		

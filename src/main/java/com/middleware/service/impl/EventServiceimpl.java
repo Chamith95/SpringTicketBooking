@@ -112,4 +112,19 @@ public class EventServiceimpl implements EventService {
 		
 	}
 
+	@Override
+	public List<EventDto> getAllEvents() {
+		List<EventDto> returnValue =new ArrayList<>();
+		ModelMapper modelMapper = new ModelMapper();
+		
+		
+		Iterable<EventEntity> events =eventRepository.findAll();
+		
+		for(EventEntity eventEntity:events) {
+//			System.out.println(modelMapper.map(addressEntity,EventDto.class).getAddressId());
+			returnValue.add(modelMapper.map(eventEntity,EventDto.class));
+		}
+		return returnValue;
+	}
+
 }
